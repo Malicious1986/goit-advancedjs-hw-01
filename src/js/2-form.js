@@ -26,16 +26,23 @@ form.addEventListener('submit', e => {
   e.preventDefault();
 
   if (Object.values(formData).some(v => !v)) {
-    alert('Fill please all fields');
+    return alert('Fill please all fields');
   }
+
+  console.log(formData);
+  formData.email = '';
+  formData.message = '';
+  emailInput.value = '';
+  messageInput.value = '';
+  localStorage.removeItem(LOCALSTORAGE_KEY);
+});
+
+form.addEventListener('input', e => {
+  formData[e.target.name] = e.target.value;
 
   try {
     localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formData));
   } catch (error) {
     console.error(error);
   }
-});
-
-form.addEventListener('input', e => {
-  formData[e.target.name] = e.target.value;
 });
